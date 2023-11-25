@@ -47,16 +47,14 @@ async def obtener_dispositivos():
     return response
 
 @app.get("/dispositivos/{id_dispositivo}")
-async def obtener_dispoditivo(id_dispositivo: int):
-    """Obtiene un contacto por su email."""
+async def obtener_dispositivo(id_dispositivo: int):
+    """Obtiene un dispositivo por su id."""
     c = conn.cursor()
     c.execute('SELECT * FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
-    contacto = None
+    dispositivo = None
     for row in c:
-        contacto = {"id_dispositivo": row[0], "dispositivo": row[1], "valor": row[2]}
-    return disositivo
-
-
+        dispositivo = {"id_dispositivo": row[0], "dispositivo": row[1], "valor": row[2]}
+    return dispositivo
 
 @app.put("/dispositivos/{id_dispositivo}/{valor}")
 async def actualizar_dispositivo(id_dispositivo: int, valor: int):
