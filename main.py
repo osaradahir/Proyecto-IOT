@@ -59,12 +59,16 @@ async def obtener_dispoditivo(id_dispositivo: int):
 
 
 @app.put("/dispositivos/{id_dispositivo}/{valor}")
-async def actualizar_dispositivo(valor: int, id_dispositivo: int):
+async def actualizar_dispositivo(id_dispositivo: int, valor: int):
     """Actualiza un dispositivo."""
-    # DONE Actualiza el dispositivo en la base de datos
+    # Actualiza el dispositivo en la base de datos con el nuevo valor
     c = conn.cursor()
-    c.execute('UPDATE dispositivos SET valor = ? WHERE id_dispositivo = ?',
-              (valor, id_dispositivo))
+    c.execute('UPDATE dispositivos SET valor = ? WHERE id_dispositivo = ?', (valor, id_dispositivo))
     conn.commit()
-    return {"message": "Dispositivo actualizado correctamente"}
+
+    # Recupera el valor actualizado desde la base de datos
+    c.execute('SELECT valor FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
+    nuevo_valor = c.fetchone()[0]
+
+    return {"message": "Dispositivo actualizado correctamente", "nuevo_valor": nuevo_valor}
 
