@@ -54,7 +54,7 @@ async def obtener_dispositivo(id_dispositivo: int):
     valor_dispositivo = c.fetchone()
 
     if valor_dispositivo is not None:
-        return {"id_dispositivo": id_dispositivo, "valor": valor_dispositivo[0]}
+        return valor_dispositivo[0]
     else:
         return {"message": "Dispositivo no encontrado"}
 
