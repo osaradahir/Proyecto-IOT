@@ -57,14 +57,16 @@ async def obtener_dispositivo(id_dispositivo: int):
     return dispositivo
 
 @app.get("/dispositivos/{id_dispositivo}/{valor}")
-async def obtener_dispositivo(id_dispositivo: int):
-    """Obtiene un dispositivo por su id."""
+async def obtener_dispositivo(id_dispositivo: int, valor: int = Path(..., title="Valor del dispositivo")):
+    """Obtiene el valor de un dispositivo por su ID."""
     c = conn.cursor()
-    c.execute('SELECT * FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
-    dispositivo = None
-    for row in c:
-        dispositivo = {"id_dispositivo": row[0], "dispositivo": row[1], "valor": row[2]}
-    return dispositivo
+    c.execute('SELECT valor FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
+    valor_dispositivo = c.fetchone()
+
+    if valor_dispositivo is not None:
+        return {"id_dispositivo": id_dispositivo, "valor": valor_dispositivo[0]}
+    else:
+        return {"message": "Dispositivo no encontrado"}
 
 @app.put("/dispositivos/{id_dispositivo}/{valor}")
 async def actualizar_dispositivo(id_dispositivo: int, valor: int):
