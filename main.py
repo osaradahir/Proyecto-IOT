@@ -57,7 +57,7 @@ async def obtener_dispositivo(id_dispositivo: int):
     return dispositivo
 
 @app.get("/dispositivos/{id_dispositivo}/{valor}")
-async def obtener_dispositivo(id_dispositivo: int, valor: int = Path(..., title="Valor del dispositivo")):
+async def obtener_dispositivo(id_dispositivo: int, valor: int):
     """Obtiene el valor de un dispositivo por su ID."""
     c = conn.cursor()
     c.execute('SELECT valor FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
