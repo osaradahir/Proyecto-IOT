@@ -47,16 +47,14 @@ async def obtener_dispositivos():
     return response
 
 @app.get("/dispositivos/{id_dispositivo}")
-async def obtener_dispositivo(id_dispositivo: int):
-    """Obtiene el valor de un dispositivo por su ID."""
+async def obtener_valor_dispositivo(id_dispositivo: int):
+    """Obtiene el valor de un dispositivo por su id_dispositivo."""
     c = conn.cursor()
     c.execute('SELECT valor FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
-    valor_dispositivo = c.fetchone()
+    valor = c.fetchone()  # Obtiene la primera fila de la consulta
+    
+    return {"valor": valor[0] if valor else None}
 
-    if valor_dispositivo is not None:
-        return valor_dispositivo[0]
-    else:
-        return {"message": "Dispositivo no encontrado"}
 
 @app.put("/dispositivos/{id_dispositivo}/{valor}")
 async def actualizar_dispositivo(id_dispositivo: int, valor: int):
