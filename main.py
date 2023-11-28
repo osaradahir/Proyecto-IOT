@@ -52,9 +52,8 @@ async def obtener_valor_dispositivo(id_dispositivo: int):
     c = conn.cursor()
     c.execute('SELECT valor FROM dispositivos WHERE id_dispositivo = ?', (id_dispositivo,))
     valor = c.fetchone()  # Obtiene la primera fila de la consulta
-    valor = valor[2]
     
-    return valor if valor else None
+    return valor[0] if valor else None
 
 
 @app.put("/dispositivos/{id_dispositivo}/{valor}")
